@@ -27,7 +27,7 @@ st.markdown("<h1 style='text-align: center; color: #003366;'>Dashboard de Movime
 # Carregar os dados
 @st.cache_data
 def load_data():
-    file_path = "/mnt/data/movportMA2023.xlsx"
+    file_path = "/mnt/data/movMA2023.xlsx"
     df = pd.read_excel(file_path, sheet_name="Sheet1")
     df = df.rename(columns={
         'Ano': 'ano',
