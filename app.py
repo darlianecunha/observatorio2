@@ -39,7 +39,8 @@ def load_data():
         'UF Destino': 'uf_destino',
         'País Origem': 'pais_origem',
         'País Destino': 'pais_destino',
-        'Total de Movimentação Portuária\nem toneladas (t)': 'movimentacao_total_t'
+        'Total de Movimentação Portuária\nem toneladas (t)': 'movimentacao_total_t',
+        'Porto': 'porto'
     })
     df["ano"] = df["ano"].astype(int).astype(str)  # Garantir formato correto de ano
     
@@ -56,6 +57,7 @@ tipo_instalacao_selecionado = st.sidebar.selectbox("Selecione o Tipo de Instala�
 perfil_carga_selecionado = st.sidebar.selectbox("Selecione o Perfil da Carga", ["Todos"] + list(df["perfil_carga"].unique()), index=0)
 sentido_selecionado = st.sidebar.selectbox("Selecione o Sentido", ["Todos"] + list(df["sentido"].unique()), index=0)
 tipo_navegacao_selecionado = st.sidebar.selectbox("Selecione o Tipo de Navegação", ["Todos"] + list(df["tipo_navegacao"].unique()), index=0)
+porto_selecionado = st.sidebar.selectbox("Selecione o Porto", ["Todos"] + list(df["porto"].unique()), index=0)
 
 # Aplicar filtros
 df_filtered = df[df["ano"] == ano_selecionado]
@@ -67,6 +69,8 @@ if sentido_selecionado != "Todos":
     df_filtered = df_filtered[df_filtered["sentido"] == sentido_selecionado]
 if tipo_navegacao_selecionado != "Todos":
     df_filtered = df_filtered[df_filtered["tipo_navegacao"] == tipo_navegacao_selecionado]
+if porto_selecionado != "Todos":
+    df_filtered = df_filtered[df_filtered["porto"] == porto_selecionado]
 
 # Agregar dados por ano
 df_summary = df_filtered.groupby("ano", as_index=False)["movimentacao_total_t"].sum()
@@ -80,3 +84,4 @@ st.dataframe(df_summary, width=1000)
 # Crédito 
 st.write("Fonte: Estatístico Aquaviário ANTAQ")
 st.markdown("<p><strong>Ferramenta desenvolvida por Darliane Cunha.</strong></p>", unsafe_allow_html=True)
+
