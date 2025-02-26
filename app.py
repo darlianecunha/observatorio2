@@ -88,7 +88,7 @@ df_summary = df_filtered.groupby(["nome_instalacao"], as_index=False)["movimenta
 total_movimentacao = df_summary["movimentacao_milhoes_t"].sum()
 
 # Formatar os números para exibição no padrão brasileiro
-df_summary["movimentacao_milhoes_t"] = df_summary["movimentacao_milhoes_t"].apply(lambda x: f"{x:,.3f}".replace(",", "#").replace(".", ",").replace("#", "."))
+df_summary["movimentacao_milhoes_t"] = df_summary["movimentacao_milhoes_t"].apply(lambda x: f"{x:,.2f}".replace(",", "X").replace(".", ",").replace("X", "."))
 
 # Exibir tabela de dados agregados
 st.write("### Movimentação Total por Porto")
@@ -96,8 +96,8 @@ st.dataframe(df_summary, width=800)
 
 # Exibir total de movimentação
 st.markdown(f"""
-    <h2>Movimentação Total: {total_movimentacao:,.3f} milhões de toneladas</h2>
-    """.replace(",", "#").replace(".", ",").replace("#", "."), unsafe_allow_html=True)
+    <h2>Movimentação Total: {total_movimentacao:,.2f} milhões de toneladas</h2>
+    """.replace(",", "X").replace(".", ",").replace("X", "."), unsafe_allow_html=True)
 
 # Crédito 
 st.write("Fonte: Estatístico Aquaviário ANTAQ")
