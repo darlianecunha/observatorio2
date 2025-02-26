@@ -87,7 +87,7 @@ df_summary = df_filtered.groupby(["nome_instalacao"], as_index=False)["movimenta
 # Soma total da movimentação portuária
 total_movimentacao = df_summary["movimentacao_milhoes_t"].sum()
 
-# Formatar os números para exibição no padrão brasileiro (exemplo: 36.329.965)
+# Formatar os números para exibição no padrão brasileiro
 df_summary["movimentacao_milhoes_t"] = df_summary["movimentacao_milhoes_t"].apply(lambda x: f"{x:,.0f}".replace(",", "X").replace(".", ",").replace("X", "."))
 total_movimentacao = f"{total_movimentacao:,.0f}".replace(",", "X").replace(".", ",").replace("X", ".")
 
@@ -97,7 +97,7 @@ st.dataframe(df_summary, width=800)
 
 # Exibir total de movimentação
 st.markdown(f"""
-    <h2>Movimentação Total: {total_movimentacao} milhões de toneladas</h2>
+    <h2>Movimentação Total: {total_movimentacao} toneladas</h2>
     """, unsafe_allow_html=True)
 
 # Crédito 
