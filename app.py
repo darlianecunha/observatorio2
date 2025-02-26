@@ -11,18 +11,30 @@ st.markdown(
         }
         h1, h2 {
             color: #003366;
+            text-align: center;
         }
         .stDataFrame, .stTable {
             background-color: white;
             color: black;
+        }
+        .navio {
+            text-align: center;
         }
     </style>
     """,
     unsafe_allow_html=True
 )
 
+# Adicionando um ícone de navio no topo
+topo_html = """
+<div class='navio'>
+    <img src='https://cdn-icons-png.flaticon.com/128/2866/2866321.png' width='80'>
+</div>
+"""
+st.markdown(topo_html, unsafe_allow_html=True)
+
 # Cabeçalho do Dashboard
-st.markdown("<h1 style='text-align: center; color: #003366;'>Dashboard de Movimentação Portuária - Maranhão 2023</h1>", unsafe_allow_html=True)
+st.markdown("<h1>Dashboard de Movimentação Portuária - Maranhão 2010 a 2023</h1>", unsafe_allow_html=True)
 
 # Carregar os dados
 @st.cache_data
@@ -70,14 +82,23 @@ if nomenclatura_simplificada_selecionado != "Todos":
     df_filtered = df_filtered[df_filtered["nomenclatura_simplificada"] == nomenclatura_simplificada_selecionado]
 
 # Agregar dados por instalação
-df_summary = df_filtered.groupby(["nome_instalacao", "perfil_carga"], as_index=False)["movimentacao_milhoes_t"].sum()
+df_summary = df_filtered.groupby(["nome_instalacao"], as_index=False)["movimentacao_milhoes_t"].sum()
+
+# Soma total da movimentação portuária
+total_movimentacao = df_summary["movimentacao_milhoes_t"].sum()
 
 # Formatar os números para exibição
 df_summary["movimentacao_milhoes_t"] = df_summary["movimentacao_milhoes_t"].apply(lambda x: f"{x:,.3f}".replace(",", "X").replace(".", ",").replace("X", "."))
 
 # Exibir tabela de dados agregados
-st.dataframe(df_summary, width=1000)
+st.write("### Movimentação Total por Porto")
+st.dataframe(df_summary, width=800)
+
+# Exibir total de movimentação
+st.markdown(f"""
+    <h2>Movimentação Total: {total_movimentacao:,.3f} milhões de toneladas</h2>
+    """, unsafe_allow_html=True)
 
 # Crédito 
 st.write("Fonte: Estatístico Aquaviário ANTAQ")
-st.markdown("<p><strong>Ferramenta desenvolvida por Darliane Cunha.</strong></p>", unsafe_allow_html=True)
+st.markdown("<p><strong>Ferramenta desenvolvida para o Observatório Portuário com Financiamento do Itaqui </strong></p>", unsafe_allow_html=True)
